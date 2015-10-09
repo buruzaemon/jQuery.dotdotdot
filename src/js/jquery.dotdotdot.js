@@ -435,6 +435,42 @@
 			startPos	= 0,
 			endPos		= textArr.length - 1;
 
+        var tiny = new TinySegmenter();
+        var lang = null, EN=0, JA=1;
+        var tbuf=[], acc=[];
+        for (var i=0, len=txt.length; i < len; i++) {
+            var c = fixedCharCodeAt(txt, i);
+            // 0x3000 - 0x305F: CJK punctuation
+            // 0x3040 - 0xFF9F: Hiragana, Katakana, Kanji, half-width
+            if ((0x3000 <= c && c <= 0x305F) || (0x3040 <= c && c <= 0xFF9F)) {
+                if (!lang) lang = JA;
+                if (lang===EN) {
+                    Array.prototype.push.apply(tbuf, acc.join('').split(separator));
+                    lang = JA, acc = [];
+                }
+                acc = acc.concat(txt.charAt(i));
+            }
+            else {
+                if (!lang) lang = EN;
+                if (lang===JA) {
+                    Array.prototype.push.apply(tbuf, tiny.segment(acc.join('')));
+                    lang = EN, acc = [];
+                }
+                acc = acc.concat(txt.charAt(i));
+            }
+
+            if (i === len-1) {
+                if (lang===EN) {
+                    Array.prototype.push.apply(tbuf, acc.join('').split(separator));
+                }
+                else if (lang===JA) {
+                    Array.prototype.push.apply(tbuf, tiny.segment(acc.join('')));
+                }
+            }
+        }
+        console.log("===");
+        console.log(tbuf.length-1);
+        console.log("===");
 
 		//	Only one word
 		if ( o.fallbackToLetter && startPos == 0 && endPos == 0 )
@@ -443,6 +479,10 @@
 			textArr		= txt.split( separator );
 			endPos		= textArr.length - 1;
 		}
+        console.log('--> 0');
+        console.log('    startPos: '+startPos); 
+        console.log('    endPos: '+endPos); 
+        console.log();
 
 		while ( startPos <= endPos && !( startPos == 0 && endPos == 0 ) )
 		{
@@ -453,6 +493,10 @@
 			}
 			midPos = m;
 
+            console.log('--> 1');
+            console.log( textArr.slice( 0, midPos + 1 ).join( separator ) + o.ellipsis);
+            console.log('--');
+            console.log();
 			setTextContent( e, textArr.slice( 0, midPos + 1 ).join( separator ) + o.ellipsis );
 			$i.children()
 				.each(
@@ -487,6 +531,10 @@
 		if ( position != -1 && !( textArr.length == 1 && textArr[ 0 ].length == 0 ) )
 		{
 			txt = addEllipsis( textArr.slice( 0, position + 1 ).join( separator ), o );
+            console.log('--> 2');
+            console.log(txt);
+            console.log('--');
+            console.log();
 			setTextContent( e, txt );
 		}
 		else
@@ -510,6 +558,8 @@
 			}
 			if ( e )
 			{
+                console.log('-- 3');
+                console.log();
 				txt = addEllipsis( getTextContent( e ), o );
 				setTextContent( e, txt );
 				if ( afterLength && after )
@@ -655,6 +705,26 @@
 		}
 		return h;
 	}
+    // c.f. https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/charCodeAt
+    function fixedCharCodeAt(str, idx) 
+    {
+        idx = idx || 0;
+        var code = str.charCodeAt(idx);
+        var hi, low;
+
+        if (0xD800 <= code && code <= 0xDBFF) {
+            hi = code
+            low = str.charCodeAt(idx + 1);
+            if (isNaN(low)) {
+                throw 'High surrogate not followed by low surrogate in fixedCharCodeAt()';
+            }
+            return ((hi - 0xD800) * 0x400) + (low - 0xDC00) + 0x10000;
+        }
+        if (0xDC00 <= code && code <= 0xDFF) { // low surrogate
+            return false;
+        }
+        return code;
+    }
 
 
 	//	override jQuery.html
