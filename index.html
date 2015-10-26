@@ -8,6 +8,7 @@
 
 		<script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.js"></script>
 		<script type="text/javascript" language="javascript" src="src/js/jquery.dotdotdot.js"></script>
+		<!--script type="text/javascript" language="javascript" src="src/js/my.dotdotdot.js"></script-->
 		<script type="text/javascript" language="javascript" src="src/js/tiny_segmenter-0.2.js"></script>
 		<script type="text/javascript" language="javascript">
 			$(function() {
@@ -16,6 +17,7 @@
 				$('#dot1b').dotdotdot();
 
 				$('#dot2').dotdotdot();
+				$('#dot2a').dotdotdot();
 
 				$('#dot3').dotdotdot({
 					after: 'a.readmore'
@@ -192,8 +194,7 @@
 				<p>Advanced cross-browser ellipsis for multiple line content.<br />
 					Demo's and documentation: <a href="http://dotdotdot.frebsite.nl" target="_blank">dotdotdot.frebsite.nl</a></p>
 			</div>
-
-            <!--
+  
 			<div class="example">
 				<p><strong>EN Text:</strong></p>
 				<div class="l">
@@ -205,21 +206,19 @@
  					<div class="box after" id="dot1">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.</div>
 				</div>
 			</div>
-            -->
 
 			<div class="example">
 				<p><strong>JA Text:</strong></p>
 				<div class="l">
 					<p class="before">before:</p>
-                    <div class="box before">吾輩は猫である。名前はまだ無い。<br/>どこで生れたかとんと見当がつかぬ。何でも薄暗いじめじめした所でニャーニャー泣いていた事だけは記憶している。吾輩はここで始めて人間というものを見た。しかもあとで聞くとそれは書生という人間中で一番獰悪な種族であったそうだ。この書生というのは時々我々を捕えて煮て食うという話である。しかしその当時は何という考もなかったから別段恐しいとも思わなかった。</div>
+                    <div class="box before"> 吾輩は猫である。名前はまだ無い。どこで生れたかとんと見当がつかぬ。何でも薄暗いじめじめした所でニャーニャー泣いていた事だけは記憶している。吾輩はここで始めて人間というものを見た。しかもあとで聞くとそれは書生という人間中で一番獰悪な種族であったそうだ。この書生というのは時々我々を捕えて煮て食うという話である。しかしその当時は何という考もなかったから別段恐しいとも思わなかった。</div>
 				</div>
 				<div class="r">
 					<p class="after">after:</p>
-                    <div class="box after" id="dot1a">吾輩は猫である。名前はまだ無い。<br/>どこで生れたかとんと見当がつかぬ。何でも薄暗いじめじめした所でニャーニャー泣いていた事だけは記憶している。吾輩はここで始めて人間というものを見た。しかもあとで聞くとそれは書生という人間中で一番獰悪な種族であったそうだ。この書生というのは時々我々を捕えて煮て食うという話である。しかしその当時は何という考もなかったから別段恐しいとも思わなかった。</div>
+                    <div class="box after" id="dot1a"> 吾輩は猫である。名前はまだ無い。どこで生れたかとんと見当がつかぬ。何でも薄暗いじめじめした所でニャーニャー泣いていた事だけは記憶している。吾輩はここで始めて人間というものを見た。しかもあとで聞くとそれは書生という人間中で一番獰悪な種族であったそうだ。この書生というのは時々我々を捕えて煮て食うという話である。しかしその当時は何という考もなかったから別段恐しいとも思わなかった。</div>
 				</div>
 			</div>
 
-            <!--
 			<div class="example">
 				<p><strong>Mixed Text:</strong></p>
 				<div class="l">
@@ -253,16 +252,36 @@
 			</div>
 
 			<div class="example">
-				<p><strong>With an &quot;after&quot;-element:</strong></p>
+				<p><strong>Text with markup:</strong></p>
 				<div class="l">
 					<p class="before">before:</p>
-                    <div class="box before">吾輩は猫である。名前はまだ無い。<br/>どこで生れたかとんと見当がつかぬ。何でも薄暗いじめじめした所でニャーニャー泣いていた事だけは記憶している。吾輩はここで始めて人間というものを見た。しかもあとで聞くとそれは書生という人間中で一番獰悪な種族であったそうだ。この書生というのは時々我々を捕えて煮て食うという話である。しかしその当時は何という考もなかったから別段恐しいとも思わなかった。 <a href="#" class="readmore">Read more &raquo;</a></div>
+					<div class="box before">
+                        <p><em>吾輩</em>は<strong>猫である</strong>。</p>
+                        <p><em>名前</em>はまだ無い。どこで生れたかとんと見当がつかぬ。何でも薄暗いじめじめした所でニャーニャー泣いていた事だけは記憶している。吾輩はここで始めて人間というものを見た。しかもあとで聞くとそれは書生という人間中で<em>一番獰悪な</em>種族であったそうだ。この書生というのは時々我々を捕えて煮て食うという話である。しかしその当時は何という考もなかったから別段恐しいとも思わなかった。</p>
+					</div>
 				</div>
 				<div class="r">
 					<p class="after">after:</p>
-                    <div class="box after" id="dot3">吾輩は猫である。名前はまだ無い。<br/>どこで生れたかとんと見当がつかぬ。何でも薄暗いじめじめした所でニャーニャー泣いていた事だけは記憶している。吾輩はここで始めて人間というものを見た。しかもあとで聞くとそれは書生という人間中で一番獰悪な種族であったそうだ。この書生というのは時々我々を捕えて煮て食うという話である。しかしその当時は何という考もなかったから別段恐しいとも思わなかった。 <a href="#" class="readmore">Read more &raquo;</a></div>
+					<div class="box after" id="dot2a">
+                        <p><em>吾輩</em>は<strong>猫である</strong>。</p>
+                        <p><em>名前</em>はまだ無い。どこで生れたかとんと見当がつかぬ。何でも薄暗いじめじめした所でニャーニャー泣いていた事だけは記憶している。吾輩はここで始めて人間というものを見た。しかもあとで聞くとそれは書生という人間中で<em>一番獰悪な</em>種族であったそうだ。この書生というのは時々我々を捕えて煮て食うという話である。しかしその当時は何という考もなかったから別段恐しいとも思わなかった。</p>
+					</div>
 				</div>
 			</div>
+
+            <!--
+			<div class="example">
+				<p><strong>With an &quot;after&quot;-element:</strong></p>
+				<div class="l">
+					<p class="before">before:</p>
+                    <div class="box before"> 吾輩は猫である。名前はまだ無い。<br/>どこで生れたかとんと見当がつかぬ。何でも薄暗いじめじめした所でニャーニャー泣いていた事だけは記憶している。吾輩はここで始めて人間というものを見た。しかもあとで聞くとそれは書生という人間中で一番獰悪な種族であったそうだ。この書生というのは時々我々を捕えて煮て食うという話である。しかしその当時は何という考もなかったから別段恐しいとも思わなかった。 <a href="#" class="readmore">Read more &raquo;</a></div>
+				</div>
+				<div class="r">
+					<p class="after">after:</p>
+                    <div class="box after" id="dot3"> 吾輩は猫である。名前はまだ無い。<br/>どこで生れたかとんと見当がつかぬ。何でも薄暗いじめじめした所でニャーニャー泣いていた事だけは記憶している。吾輩はここで始めて人間というものを見た。しかもあとで聞くとそれは書生という人間中で一番獰悪な種族であったそうだ。この書生というのは時々我々を捕えて煮て食うという話である。しかしその当時は何という考もなかったから別段恐しいとも思わなかった。 <a href="#" class="readmore">Read more &raquo;</a></div>
+				</div>
+			</div>
+            -->
 
 			<div class="example resize">
 				<p><strong>Updating onWindowResize:</strong></p>
@@ -305,7 +324,6 @@
 					</div>
 				</div>
 			</div>
-            -->
 
 		</div>
 		<br />

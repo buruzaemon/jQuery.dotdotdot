@@ -288,7 +288,7 @@
 		}
 
 		return $dot;
-	};
+	}; // --- end dotdotdot
 
 
 	//	public
@@ -349,6 +349,7 @@
 	}
 	function ellipsis( $elem, $d, $i, o, after )
 	{
+
 		var isTruncated	= false;
 
 		//	Don't put the ellipsis directly inside these elements
@@ -438,52 +439,63 @@
         var tiny = new TinySegmenter();
         var lang = null, EN=0, JA=1;
         var tbuf=[], acc=[];
+        console.log(txt);
         for (var i=0, len=txt.length; i < len; i++) {
             var c = fixedCharCodeAt(txt, i);
+            var ch = txt.charAt(i);
             // 0x3000 - 0x305F: CJK punctuation
             // 0x3040 - 0xFF9F: Hiragana, Katakana, Kanji, half-width
-            if ((0x3000 <= c && c <= 0x305F) || (0x3040 <= c && c <= 0xFF9F)) {
-                if (!lang) lang = JA;
+            if (isJaCharCode(c)) {
+                if (lang===null) lang = JA;
                 if (lang===EN) {
                     Array.prototype.push.apply(tbuf, acc.join('').split(separator));
                     lang = JA, acc = [];
                 }
-                acc = acc.concat(txt.charAt(i));
+                acc = acc.concat(ch);
             }
             else {
-                if (!lang) lang = EN;
+                if (lang===null) lang = EN;
                 if (lang===JA) {
-                    Array.prototype.push.apply(tbuf, tiny.segment(acc.join('')));
+                    Array.prototype.push.apply(tbuf, tiny.segment(acc.join()));
                     lang = EN, acc = [];
                 }
-                acc = acc.concat(txt.charAt(i));
+                acc = acc.concat(ch);
             }
 
             if (i === len-1) {
+                console.log('... at end ...');
+                console.log(lang);
+                console.log(tbuf);
+                console.log(acc);
+                console.log('... ?');
+
+                /*
                 if (lang===EN) {
+                    console.log('... EN');
                     Array.prototype.push.apply(tbuf, acc.join('').split(separator));
                 }
                 else if (lang===JA) {
+                    console.log('... JA');
                     Array.prototype.push.apply(tbuf, tiny.segment(acc.join('')));
                 }
+                */
+                Array.prototype.push.apply(tbuf, tiny.segment(acc.join('')));
             }
         }
-        console.log("===");
-        console.log(tbuf.length-1);
-        console.log("===");
+        console.log('... post-while');
+        console.log(tbuf);
+        textArr = tbuf;
+        endPos = textArr.length - 1;
 
 		//	Only one word
 		if ( o.fallbackToLetter && startPos == 0 && endPos == 0 )
 		{
+            console.log("!!!!!!!!!!!!!!!!!!!!!! WTF?");
 			separator	= '';
 			textArr		= txt.split( separator );
 			endPos		= textArr.length - 1;
 		}
-        console.log('--> 0');
-        console.log('    startPos: '+startPos); 
-        console.log('    endPos: '+endPos); 
-        console.log();
-
+    
 		while ( startPos <= endPos && !( startPos == 0 && endPos == 0 ) )
 		{
 			var m = Math.floor( ( startPos + endPos ) / 2 );
@@ -493,11 +505,9 @@
 			}
 			midPos = m;
 
-            console.log('--> 1');
-            console.log( textArr.slice( 0, midPos + 1 ).join( separator ) + o.ellipsis);
-            console.log('--');
-            console.log();
-			setTextContent( e, textArr.slice( 0, midPos + 1 ).join( separator ) + o.ellipsis );
+            //setTextContent( e, textArr.slice( 0, midPos + 1 ).join( separator ) + o.ellipsis );
+            var chunk = joinChars(textArr.slice( 0, midPos + 1 ));
+            setTextContent( e, chunk + o.ellipsis );
 			$i.children()
 				.each(
 					function()
@@ -518,6 +528,7 @@
 				//	Fallback to letter
 				if (o.fallbackToLetter && startPos == 0 && endPos == 0 )
 				{
+                    console.log("!!!!!!!!!!!!!!!!!!!!!! WTF.");
 					separator	= '';
 					textArr		= textArr[ 0 ].split( separator );
 					position	= -1;
@@ -528,17 +539,18 @@
 			}
 		}
 
+
 		if ( position != -1 && !( textArr.length == 1 && textArr[ 0 ].length == 0 ) )
 		{
-			txt = addEllipsis( textArr.slice( 0, position + 1 ).join( separator ), o );
-            console.log('--> 2');
-            console.log(txt);
-            console.log('--');
-            console.log();
+            console.log("-- 1");
+            //txt = addEllipsis( textArr.slice( 0, position + 1 ).join( separator ), o );
+            var chunk = joinChars( textArr.slice(0, position+1));
+			txt = addEllipsis( chunk, o );
 			setTextContent( e, txt );
 		}
 		else
 		{
+            console.log("-- 2");
 			var $w = $e.parent();
 			$e.detach();
 
@@ -546,24 +558,27 @@
 
 			if ( $w.contents().length > afterLength )
 			{
+                console.log("-- 2.1");
 				e = findLastTextNode( $w.contents().eq( -1 - afterLength ), $d );
 			}
 			else
 			{
+                console.log("-- 2.2");
 				e = findLastTextNode( $w, $d, true );
 				if ( !afterLength )
 				{
+                    console.log("-- 2.2.1");
 					$w.detach();
 				}
 			}
 			if ( e )
 			{
-                console.log('-- 3');
-                console.log();
+                console.log("-- 2.3");
 				txt = addEllipsis( getTextContent( e ), o );
 				setTextContent( e, txt );
 				if ( afterLength && after )
 				{
+                    console.log("-- 2.3.1");
 					$(e).parent().append( after );
 				}
 			}
@@ -705,6 +720,8 @@
 		}
 		return h;
 	}
+
+    // *****
     // c.f. https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/charCodeAt
     function fixedCharCodeAt(str, idx) 
     {
@@ -725,6 +742,26 @@
         }
         return code;
     }
+    function joinChars(tArr)
+    {
+        var tmp = [];
+        for (var i=0, l=tArr.length; i<l; i++) {
+            tmp.push(tArr[i]);
+            if (i < l-1) {
+                var c1 = fixedCharCodeAt(tArr[i], tArr[i].length-1);
+                var c2 = fixedCharCodeAt(tArr[i+1], 0);
+                if (isJaCharCode(c1)===false && isJaCharCode(c2)==false) {
+                        tmp.push(' ');
+                }
+            }
+        }
+        return tmp.join('');
+    }
+    function isJaCharCode(c) 
+    {
+        return ((0x3000 <= c && c <= 0x305F) || (0x3040 <= c && c <= 0xFF9F));
+    }
+    // *****
 
 
 	//	override jQuery.html
