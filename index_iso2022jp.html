@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html>
+	<head>
+        <meta charset="ISO-2022-JP">
+		<meta http-equiv="content-type" content="text/html;iso-2022-JP" />
+		<meta name="author" content="www.frebsite.nl" />
+
+		<title>ISO-2022-JP</title>
+
+		<script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.js"></script>
+		<!--script type="text/javascript" language="javascript" src="src/js/jquery.dotdotdot.js"></script-->
+		<script type="text/javascript" language="javascript" src="src/js/jquery.dotdotdot.min.js"></script>
+		<script type="text/javascript" language="javascript">
+			$(function() {
+				$('#dot1').dotdotdot();
+				$('#dot1a').dotdotdot();
+
+				$('#dot2').dotdotdot();
+
+				$('#dot3').dotdotdot({
+					after: 'a.readmore'
+				});
+
+				$('#dot4').dotdotdot({
+					watch: 'window'
+				});
+
+				var $dot5 = $('#dot5');
+				$dot5.append( ' <a class="toggle" href="#"><span class="open">[ + ]</span><span class="close">[ - ]</span></a>' );
+
+
+				function createDots()
+				{
+					$dot5.dotdotdot({
+						after: 'a.toggle'
+					});
+				}
+				function destroyDots() {
+					$dot5.trigger( 'destroy' );
+				}
+				createDots();
+
+				$dot5.on(
+					'click',
+					'a.toggle',
+					function() {
+						$dot5.toggleClass( 'opened' );
+
+						if ( $dot5.hasClass( 'opened' ) ) {
+							destroyDots();
+						} else {
+							createDots();
+						}
+						return false;
+					}
+				);
+
+				$('#dot6 .pathname').each(function() {
+					var path = $(this).html().split( '/' );
+					if ( path.length > 1 ) {
+						var name = path.pop();
+						$(this).html( path.join( '/' ) + '<span class="filename">/' + name + '</span>' );
+						$(this).dotdotdot({
+							after: '.filename',
+							wrap: 'letter'
+						});						
+					}
+				});
+
+			});
+		</script>
+		<style type="text/css" media="all">
+			html, body {
+				padding: 0;
+				margin: 0;
+				height: 100%;
+			}
+			body, div, p {
+				font-family: Arial, Helvetica, Verdana;
+				color: #333;
+				-webkit-text-size-adjust: none;
+			}
+			body {
+				background-color: #f3f3f3;
+			}
+			a, a:link, a:active, a:visited {
+				color: black;
+				text-decoration: underline;
+			}
+			a:hover {
+				color: #9E1F63;
+			}
+
+
+			#wrapper {
+				background-color: #fff;
+				width: 600px;
+				padding: 50px 50px 0 50px;
+				margin: 0 auto;
+				border: 1px solid #ccc;
+				box-shadow: 0 0 5px #ccc;
+			}
+			#intro {
+				margin-bottom: 60px;
+			}
+			#intro p {
+				font-size: 18px;
+			}
+
+			div.example {
+				padding: 0 0 150px 0;
+			}
+			div.example:after {
+				content: '';
+				display: block;
+				clear: both;
+			}
+			div.example p {
+				margin: 0 0 10px 0;
+			}
+			div.l {
+				width: 275px;
+				float: left;
+			}
+			div.r {
+				width: 275px;
+				float: right;
+			}
+			
+			div.box {
+				border: 1px solid #ccc;
+				height: 180px;
+				padding: 15px 20px 10px 20px;
+/* 				overflow: hidden; */
+			}
+			div.resize {
+				padding-bottom: 250px;
+			}
+			div.resize div.box {
+				position: absolute;
+				width: 40%;
+				height: 100px;
+			}
+			div.resize div.box.before {
+				right: 50%;
+				margin-right: 10px;
+			}
+			div.resize div.box.after {
+				left: 50%;
+				margin-left: 10px;
+			}
+			div.box.opened
+			{
+				height: auto;
+			}
+			div.box .toggle .close,
+			div.box.opened .toggle .open
+			{
+				display: none;
+			}
+			div.box .toggle .opened,
+			div.box.opened .toggle .close
+			{
+				display: inline;
+			}
+			div.box.before {
+				background-color: #ffeeee;
+			}
+			div.box.after {
+				background-color: #eeffee;
+			}
+			p.before {
+				color: #990000;
+			}
+			p.after {
+				color: #006600;
+			}
+			div.box.pathname {
+				height: auto;
+			}
+			.pathname {
+				height: 25px;
+			}
+		</style>
+	</head>
+	<body>
+		<br />
+		<br />
+		<div id="wrapper">
+			<div id="intro">
+				<h1>Fork of jQuery.dotdotdot</h1>
+                <p>Advanced cross-browser ellipsis for multiple line content<br/>that can actually deal with Japanese text.<br/><br/>
+                   Charset: ISO-2022-JP <em>Japanese and English text, mixed</em><br/><br/>
+				   Original demo and documentation: <a href="http://dotdotdot.frebsite.nl" target="_blank">dotdotdot.frebsite.nl</a></p>
+			</div>
+  
+			<div class="example">
+				<p><strong>Example 1: Basic ellipsis</strong></p>
+				<div class="l">
+					<p class="before">before:</p>
+                    <div class="box before"> 吾輩は猫である。名前はまだ無い。どこで生れたかとんと見当がつかぬ。何でも薄暗いじめじめした所でニャーニャー泣いていた事だけは記憶している。吾輩はここで始めて人間というものを見た。しかもあとで聞くとそれは書生という人間中で一番獰悪な種族であったそうだ。この書生というのは時々我々を捕えて煮て食うという話である。しかしその当時は何という考もなかったから別段恐しいとも思わなかった。</div>
+				</div>
+				<div class="r">
+					<p class="after">after:</p>
+                    <div class="box after" id="dot1"> 吾輩は猫である。名前はまだ無い。どこで生れたかとんと見当がつかぬ。何でも薄暗いじめじめした所でニャーニャー泣いていた事だけは記憶している。吾輩はここで始めて人間というものを見た。しかもあとで聞くとそれは書生という人間中で一番獰悪な種族であったそうだ。この書生というのは時々我々を捕えて煮て食うという話である。しかしその当時は何という考もなかったから別段恐しいとも思わなかった。</div>
+				</div>
+			</div>
+
+			<div class="example">
+				<p><strong>Example 1a: Basic ellipsis, EN &amp; JA text</strong></p>
+				<div class="l">
+					<p class="before">before:</p>
+                    <div class="box before">Call me Ishmael. Some years ago - never mind how long precisely - having little or no money in my purse, and nothing particular to interest me on shore, I thought I would sail about a little and see the watery part of the world.<br/>どこで生れたかとんと見当がつかぬ。何でも薄暗いじめじめした所でニャーニャー泣いていた事だけは記憶している。</div>
+				</div>
+				<div class="r">
+					<p class="after">after:</p>
+                    <div class="box after" id="dot1a">Call me Ishmael. Some years ago - never mind how long precisely - having little or no money in my purse, and nothing particular to interest me on shore, I thought I would sail about a little and see the watery part of the world.<br/>どこで生れたかとんと見当がつかぬ。何でも薄暗いじめじめした所でニャーニャー泣いていた事だけは記憶している。</div>
+				</div>
+			</div>
+			
+            <div class="example">
+				<p><strong>Example 2: Text with markup</strong></p>
+				<div class="l">
+					<p class="before">before:</p>
+					<div class="box before">
+                        <p><em>吾輩</em>は<strong>猫である</strong>。</p>
+                        <p><em>名前</em>はまだ無い。どこで生れたかとんと見当がつかぬ。何でも薄暗いじめじめした所でニャーニャー泣いていた事だけは記憶している。吾輩はここで始めて人間というものを見た。しかもあとで聞くとそれは書生という人間中で<em>一番獰悪な</em>種族であったそうだ。この書生というのは時々我々を捕えて煮て食うという話である。しかしその当時は何という考もなかったから別段恐しいとも思わなかった。</p>
+					</div>
+				</div>
+				<div class="r">
+					<p class="after">after:</p>
+					<div class="box after" id="dot2">
+                        <p><em>吾輩</em>は<strong>猫である</strong>。</p>
+                        <p><em>名前</em>はまだ無い。どこで生れたかとんと見当がつかぬ。何でも薄暗いじめじめした所でニャーニャー泣いていた事だけは記憶している。吾輩はここで始めて人間というものを見た。しかもあとで聞くとそれは書生という人間中で<em>一番獰悪な</em>種族であったそうだ。この書生というのは時々我々を捕えて煮て食うという話である。しかしその当時は何という考もなかったから別段恐しいとも思わなかった。</p>
+					</div>
+				</div>
+			</div>
+
+			<div class="example">
+				<p><strong>Example 3: Link to Read more</strong></p>
+				<div class="l">
+					<p class="before">before:</p>
+                    <div class="box before"><p> 吾輩は猫である。名前はまだ無い。</p>どこで生れたかとんと見当がつかぬ。何でも薄暗いじめじめした所でニャーニャー泣いていた事だけは記憶している。吾輩はここで始めて人間というものを見た。しかもあとで聞くとそれは書生という人間中で一番獰悪な種族であったそうだ。この書生というのは時々我々を捕えて煮て食うという話である。しかしその当時は何という考もなかったから別段恐しいとも思わなかった。 <a href="#" class="readmore">Read more &raquo;</a></div>
+				</div>
+				<div class="r">
+					<p class="after">after:</p>
+                    <div class="box after" id="dot3"><p> 吾輩は猫である。名前はまだ無い。</p>どこで生れたかとんと見当がつかぬ。何でも薄暗いじめじめした所でニャーニャー泣いていた事だけは記憶している。吾輩はここで始めて人間というものを見た。しかもあとで聞くとそれは書生という人間中で一番獰悪な種族であったそうだ。この書生というのは時々我々を捕えて煮て食うという話である。しかしその当時は何という考もなかったから別段恐しいとも思わなかった。 <a href="#" class="readmore">Read more &raquo;</a></div>
+				</div>
+			</div>
+
+			<div class="example resize">
+				<p><strong>Example 4: Dynamic ellipsis on window resize</strong></p>
+				<div class="l">
+					<p class="before">before:</p>
+                    <div class="box before">吾輩は猫である。名前はまだ無い。どこで生れたかとんと見当がつかぬ。何でも薄暗いじめじめした所でニャーニャー泣いていた事だけは記憶している。吾輩はここで始めて人間というものを見た。しかもあとで聞くとそれは書生という人間中で一番獰悪な種族であったそうだ。この書生というのは時々我々を捕えて煮て食うという話である。しかしその当時は何という考もなかったから別段恐しいとも思わなかった。</div>
+				</div>
+				<div class="r">
+					<p class="after">after:</p>
+                    <div class="box after" id="dot4">吾輩は猫である。名前はまだ無い。どこで生れたかとんと見当がつかぬ。何でも薄暗いじめじめした所でニャーニャー泣いていた事だけは記憶している。吾輩はここで始めて人間というものを見た。しかもあとで聞くとそれは書生という人間中で一番獰悪な種族であったそうだ。この書生というのは時々我々を捕えて煮て食うという話である。しかしその当時は何という考もなかったから別段恐しいとも思わなかった。</div>
+				</div>
+			</div>
+
+			<div class="example">
+				<p><strong>Example 5: Toggle the full story</strong></p>
+				<div class="l">
+					<p class="before">before:</p>
+                    <div class="box before">吾輩は猫である。名前はまだ無い。どこで生れたかとんと見当がつかぬ。何でも薄暗いじめじめした所でニャーニャー泣いていた事だけは記憶している。吾輩はここで始めて人間というものを見た。しかもあとで聞くとそれは書生という人間中で一番獰悪な種族であったそうだ。この書生というのは時々我々を捕えて煮て食うという話である。しかしその当時は何という考もなかったから別段恐しいとも思わなかった。</div>
+				</div>
+				<div class="r">
+					<p class="after">after:</p>
+                    <div class="box after" id="dot5">吾輩は猫である。名前はまだ無い。どこで生れたかとんと見当がつかぬ。何でも薄暗いじめじめした所でニャーニャー泣いていた事だけは記憶している。吾輩はここで始めて人間というものを見た。しかもあとで聞くとそれは書生という人間中で一番獰悪な種族であったそうだ。この書生というのは時々我々を捕えて煮て食うという話である。しかしその当時は何という考もなかったから別段恐しいとも思わなかった。</div>
+				</div>
+			</div>
+
+			<div class="example">
+				<p><strong>Example 6: Truncate readable pathnames</strong></p>
+				<div class="l">
+					<p class="before">before:</p>
+					<div class="box before pathname">
+						<div class="pathname">www.website.com/file.html</div>
+						<div class="pathname">www.website.com/with/a/long/pathname/file.html</div>
+					</div>
+				</div>
+				<div class="r">
+					<p class="after">after:</p>
+					<div class="box after pathname" id="dot6">
+						<div class="pathname">www.website.com/file.html</div>
+						<div class="pathname">www.website.com/with/a/long/pathname/file.html</div>
+					</div>
+				</div>
+			</div>
+
+		</div>
+		<br />
+		<br />
+	</body>
+</html>
