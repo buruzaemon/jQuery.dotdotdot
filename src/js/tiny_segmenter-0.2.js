@@ -4,6 +4,7 @@
 // For details, see http://chasen.org/~taku/software/TinySegmenter/LICENCE.txt
 
 function TinySegmenter() {
+  /*
   var patterns = {
     "[一二三四五六七八九十百千万億兆]":"M",
     "[一-龠々〆ヵヶ]":"H",
@@ -12,6 +13,15 @@ function TinySegmenter() {
     "[a-zA-Zａ-ｚＡ-Ｚ]":"A",
     "[0-9０-９]":"N"
   }
+  */
+  var patterns = {
+    "[一二三四五六七八九十百千万億兆]":"M",
+    "[一-龠々〆ヵヶ]":"H",
+    "[ぁ-ん]":"I",
+    "[ァ-ヴーｱ-ﾝﾞｰ]":"K",
+    "[a-zA-Z0-9０-９ａ-ｚＡ-Ｚ\!\"\#\$\%\&\'\(\)\*\+\,\-\.\/\:\;\<\=\>\?\@\[\\\]\^\_\`\{\|\}\~]":"A"
+  }
+
   this.chartype_ = [];
   for (var i in patterns) {
     var regexp = new RegExp;
@@ -84,13 +94,36 @@ TinySegmenter.prototype.segment = function(input) {
   if (input == null || input == undefined || input == "") {
     return [];
   }
+
+  var unicode_spaces = [ '\u0020',
+                         '\u00A0',
+                         '\u1680',
+                         '\u180E',
+                         '\u2000',
+                         '\u2001',
+                         '\u2002',
+                         '\u2003',
+                         '\u2004',
+                         '\u2005',
+                         '\u2006',
+                         '\u2007',
+                         '\u2008',
+                         '\u2009',
+                         '\u200A',
+                         '\u200B',
+                         '\u202F',
+                         '\u205F',
+                         '\u3000',
+                         '\uFFFF' ];
+
   var result = [];
   var seg = ["B3","B2","B1"];
   var ctype = ["O","O","O"];
+  var whsp = [ ' ', '\u3000' ];
   var o = input.split("");
   for (i = 0; i < o.length; ++i) {
     seg.push(o[i]);
-    ctype.push(this.ctype_(o[i]))
+    ctype.push(this.ctype_(o[i]));
   }
   seg.push("E1");
   seg.push("E2");
@@ -171,6 +204,8 @@ TinySegmenter.prototype.segment = function(input) {
     word += seg[i];
   }
   result.push(word);
+
+  result = result.filter(function(w){return unicode_spaces.indexOf(w) === -1});
 
   return result;
 }
