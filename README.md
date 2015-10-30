@@ -33,7 +33,7 @@ $(document).ready(function() {
 });
 ```
 
-The following character encodings related for Japanese text are supported:
+The following character encodings related to Japanese text are supported:
 - UTF-8
 - EUC-JP
 - SHIFT_JIS
@@ -41,7 +41,8 @@ The following character encodings related for Japanese text are supported:
 
 
 ### More info
-Please visit http://dotdotdot.frebsite.nl
+- Have a look at the `index*.html` files for an example.
+- Please visit http://dotdotdot.frebsite.nl
 
 ### Licences
 - The jQuery.dotdotdot plugin is licensed under the [MIT license](http://en.wikipedia.org/wiki/MIT_License).
