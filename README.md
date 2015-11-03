@@ -43,6 +43,8 @@ The following character encodings related to Japanese text are supported:
 ### More info
 - Have a look at the `index*.html` files for an example.
 - Please visit http://dotdotdot.frebsite.nl
+- Excerpt from Melville's [_Moby Dick_ from Project Gutenberg](http://www.gutenberg.org/files/2701/2701-h/2701-h.htm#link2HCH0001)
+- Excerpt from Natsume's [_I Am A Cat_ from Aozora Bunko](http://www.aozora.gr.jp/cards/000148/files/789_14547.html)
 
 ### Licences
 - The jQuery.dotdotdot plugin is licensed under the [MIT license](http://en.wikipedia.org/wiki/MIT_License).
