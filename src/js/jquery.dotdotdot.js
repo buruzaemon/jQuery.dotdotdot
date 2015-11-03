@@ -29,7 +29,7 @@
 
     $.fn.dotdotdot = function( o )
     {
-        if ( this.length == 0 )
+        if ( this.length === 0 )
         {
             $.fn.dotdotdot.debug( 'No element found for "' + this.selector + '".' );
             return this;
@@ -85,9 +85,9 @@
 
                     opts.maxHeight += opts.tolerance;
 
-                    if ( typeof c != 'undefined' )
+                    if ( typeof c !== 'undefined' )
                     {
-                        if ( typeof c == 'string' || ('nodeType' in c && c.nodeType === 1) )
+                        if ( typeof c === 'string' || ('nodeType' in c && c.nodeType === 1) )
                         {
                             c = $('<div />').append( c ).contents();
                         }
@@ -125,7 +125,7 @@
 
                     if ( test( $inr, opts ) )
                     {
-                        if ( opts.wrap == 'children' )
+                        if ( opts.wrap === 'children' )
                         {
                             trunc = children( $inr, opts, after );
                         }
@@ -153,7 +153,7 @@
                     e.preventDefault();
                     e.stopPropagation();
 
-                    if ( typeof fn == 'function' )
+                    if ( typeof fn === 'function' )
                     {
                         fn.call( $dot[ 0 ], conf.isTruncated );
                     }
@@ -167,7 +167,7 @@
                     e.preventDefault();
                     e.stopPropagation();
 
-                    if ( typeof fn == 'function' )
+                    if ( typeof fn === 'function' )
                     {
                         fn.call( $dot[ 0 ], orgContent );
                     }
@@ -203,7 +203,7 @@
         $dot.watch = function()
         {
             $dot.unwatch();
-            if ( opts.watch == 'window' )
+            if ( opts.watch === 'window' )
             {
                 var $window = $(window),
                 _wWidth = $window.width(),
@@ -213,7 +213,7 @@
                     'resize.dot' + conf.dotId,
                     function()
                     {
-                        if ( _wWidth != $window.width() || _wHeight != $window.height() || !opts.windowResizeFix )
+                        if ( _wWidth !== $window.width() || _wHeight !== $window.height() || !opts.windowResizeFix )
                         {
                             _wWidth = $window.width();
                             _wHeight = $window.height();
@@ -241,8 +241,8 @@
                         if ( $dot.is( ':visible' ) )
                         {
                             var watchNew = getSizes( $dot );
-                            if ( watchOrg.width  != watchNew.width ||
-                                watchOrg.height != watchNew.height )
+                            if ( watchOrg.width  !== watchNew.width ||
+                                watchOrg.height !== watchNew.height )
                             {
                                 $dot.trigger( 'update.dot' );
                                 watchOrg = watchNew;
@@ -444,17 +444,17 @@
 
 
         // Only one word
-        if ( o.fallbackToLetter && startPos == 0 && endPos == 0 )
+        if ( o.fallbackToLetter && startPos === 0 && endPos === 0 )
         {
             separator   = '';
             textArr     = tiny.segment(txt);
             endPos      = textArr.length - 1;
         }
 
-        while ( startPos <= endPos && !( startPos == 0 && endPos == 0 ) )
+        while ( startPos <= endPos && !( startPos === 0 && endPos === 0 ) )
         {
             var m = Math.floor( ( startPos + endPos ) / 2 );
-            if ( m == midPos )
+            if ( m === midPos )
             {
                 break;
             }
@@ -480,7 +480,7 @@
                 endPos = midPos;
 
                 // Fallback to letter
-                if (o.fallbackToLetter && startPos == 0 && endPos == 0 )
+                if (o.fallbackToLetter && startPos === 0 && endPos === 0 )
                 {
                     separator   = '';
                     textArr     = tiny.segment(textArr[0]);
@@ -492,7 +492,7 @@
             }
         }
 
-        if ( position != -1 && !( textArr.length == 1 && textArr[ 0 ].length == 0 ) )
+        if ( position !== -1 && !( textArr.length === 1 && textArr[ 0 ].length === 0 ) )
         {
             var chunk = joinChars( textArr.slice(0, position+1));
             txt = addEllipsis( chunk, o );
@@ -692,7 +692,8 @@
             if (i < l-1) {
                 var c1 = fixedCharCodeAt(tArr[i], tArr[i].length-1);
                 var c2 = fixedCharCodeAt(tArr[i+1], 0);
-                if (isJaCharCode(c1)===false && isJaCharCode(c2)==false) {
+                //if (isJaCharCode(c1)===false && isJaCharCode(c2)===false) {
+                if !(isJaCharCode(c1) || isJaCharCode(c2)) {
                     tmp.push(' ');
                 }
             }
@@ -708,7 +709,7 @@
     var _orgHtml = $.fn.html;
     $.fn.html = function( str )
     {
-        if ( str != undef && !$.isFunction( str ) && this.data( 'dotdotdot' ) )
+        if ( str !== undef && !$.isFunction( str ) && this.data( 'dotdotdot' ) )
         {
             return this.trigger( 'update', [ str ] );
         }
@@ -719,7 +720,7 @@
     var _orgText = $.fn.text;
     $.fn.text = function( str )
     {
-        if ( str != undef && !$.isFunction( str ) && this.data( 'dotdotdot' ) )
+        if ( str !== undef && !$.isFunction( str ) && this.data( 'dotdotdot' ) )
         {
             str = $( '<div />' ).text( str ).html();
             return this.trigger( 'update', [ str ] );
@@ -805,7 +806,7 @@
     }
 
     TinySegmenter.prototype.segment = function(input) {
-        if (input == null || input == undefined || input == "") {
+        if (input === null || input === undefined || input === "") {
             return [];
         }
     
